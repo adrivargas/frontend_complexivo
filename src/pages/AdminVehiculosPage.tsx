@@ -8,19 +8,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { type Marca, listMarcasApi } from "../api/marcas.api";
-import { type Vehiculo, listVehiculosAdminApi, createVehiculoApi, updateVehiculoApi, deleteVehiculoApi } from "../api/vehiculos.api";
+import { type Shows, listVehiculosAdminApi, createVehiculoApi, updateVehiculoApi, deleteVehiculoApi } from "../api/vehiculos.api";
 
 export default function AdminVehiculosPage() {
-  const [items, setItems] = useState<Vehiculo[]>([]);
+  const [items, setItems] = useState<Shows[]>([]);
   const [marcas, setMarcas] = useState<Marca[]>([]);
   const [error, setError] = useState("");
 
   const [editId, setEditId] = useState<number | null>(null);
-  const [marca, setMarca] = useState<number>(0);
-  const [modelo, setModelo] = useState("");
-  const [anio, setAnio] = useState(2020);
-  const [placa, setPlaca] = useState("");
-  const [color, setColor] = useState("");
+  const [movie_title, setMovie_title] = useState("");
+  const [genre, setGenre] = useState("");
+  const [duration_min, setDurationMin] = useState<number | null>(null);
+//   const [is_active, setIsActive] = useState<boolean>;
 
   const load = async () => {
     try {
@@ -36,49 +35,48 @@ export default function AdminVehiculosPage() {
     try {
       const data = await listMarcasApi();
       setMarcas(data.results); // DRF paginado
-      if (!marca && data.results.length > 0) setMarca(data.results[0].id);
+      if (!duration_min && data.results.length > 0) setDurationMin(data.results[0].id);
     } catch {
       // si falla, no bloquea la pantalla
     }
   };
 
-  useEffect(() => { load(); loadMarcas(); }, []);
+//   useEffect(() => { load(); loadMarcas(); }, []);
 
-  const save = async () => {
-    try {
-      setError("");
-      if (!marca) return setError("Seleccione una marca");
-      if (!modelo.trim() || !placa.trim()) return setError("Modelo y placa son requeridos");
+//   const save = async () => {
+//     try {
+//       setError("");
+//       if (!movie_title) return setError("Seleccione una pelicula");
+//       if (!.trim() || !placa.trim()) return setError("Modelo y placa son requeridos");
 
-      const payload = {
-        marca: Number(marca),
-        modelo: modelo.trim(),
-        anio: Number(anio),
-        placa: placa.trim(),
-        color: color.trim(),
-      };
+//       const payload = {
+//         marca: Number(marca),
+//         modelo: modelo.trim(),
+//         anio: Number(anio),
+//         placa: placa.trim(),
+//         color: color.trim(),
+//       };
 
-      if (editId) await updateVehiculoApi(editId, payload);
-      else await createVehiculoApi(payload as any);
+//       if (editId) await updateVehiculoApi(editId, payload);
+//       else await createVehiculoApi(payload as any);
 
-      setEditId(null);
-      setModelo("");
-      setPlaca("");
-      setColor("");
-      await load();
-    } catch {
-      setError("No se pudo guardar vehículo. ¿Token admin?");
-    }
-  };
+//       setEditId(null);
+//       setModelo("");
+//       setPlaca("");
+//       setColor("");
+//       await load();
+//     } catch {
+//       setError("No se pudo guardar vehículo. ¿Token admin?");
+//     }
+//   };
 
-  const startEdit = (v: Vehiculo) => {
-    setEditId(v.id);
-    setMarca(v.marca);
-    setModelo(v.modelo);
-    setAnio(v.anio);
-    setPlaca(v.placa);
-    setColor(v.color || "");
-  };
+//   const startEdit = (v: Shows) => {
+//     setEditId(v.id);
+//     setMovie_title(v.movie_title);
+//     setModelo(v.genre);
+//     setAnio(v.duration_min);
+//     setIsActive(v.is_active);
+//   };
 
   const remove = async (id: number) => {
     try {
@@ -105,8 +103,6 @@ export default function AdminVehiculosPage() {
               <Select
                 labelId="marca-label"
                 label="Marca"
-                value={marca}
-                onChange={(e) => setMarca(Number(e.target.value))}
               >
                 {marcas.map((m) => (
                   <MenuItem key={m.id} value={m.id}>
@@ -116,7 +112,7 @@ export default function AdminVehiculosPage() {
               </Select>
             </FormControl>
 
-            <TextField label="Modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} fullWidth />
+            {/* <TextField label="Modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} fullWidth />
             <TextField label="Año" type="number" value={anio} onChange={(e) => setAnio(Number(e.target.value))} sx={{ width: 160 }} />
           </Stack>
 
@@ -126,7 +122,7 @@ export default function AdminVehiculosPage() {
 
             <Button variant="contained" onClick={save}>{editId ? "Actualizar" : "Crear"}</Button>
             <Button variant="outlined" onClick={() => { setEditId(null); setModelo(""); setPlaca(""); setColor(""); }}>Limpiar</Button>
-            <Button variant="outlined" onClick={() => { load(); loadMarcas(); }}>Refrescar</Button>
+            <Button variant="outlined" onClick={() => { load(); loadMarcas(); }}>Refrescar</Button> */}
           </Stack>
         </Stack>
 
@@ -146,13 +142,13 @@ export default function AdminVehiculosPage() {
             {items.map((v) => (
               <TableRow key={v.id}>
                 <TableCell>{v.id}</TableCell>
-                <TableCell>{v.marca_nombre ?? v.marca}</TableCell>
+                {/* <TableCell>{v.marca_nombre ?? v.marca}</TableCell>
                 <TableCell>{v.modelo}</TableCell>
                 <TableCell>{v.anio}</TableCell>
                 <TableCell>{v.placa}</TableCell>
-                <TableCell>{v.color || "-"}</TableCell>
+                <TableCell>{v.color || "-"}</TableCell> */}
                 <TableCell align="right">
-                  <IconButton onClick={() => startEdit(v)}><EditIcon /></IconButton>
+                  {/* <IconButton onClick={() => startEdit(v)}><EditIcon /></IconButton> */}
                   <IconButton onClick={() => remove(v.id)}><DeleteIcon /></IconButton>
                 </TableCell>
               </TableRow>

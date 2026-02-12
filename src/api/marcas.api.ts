@@ -10,7 +10,7 @@ export type Paginated<T> = {
 export type Marca = { id: number; nombre: string };
 
 export async function listMarcasApi() {
-  const { data } = await http.get<Paginated<Marca>>("/api/listShow/");
+  const { data } = await http.get<Paginated<Marca>>("api/vehicle-services/");
   return data; // { count, next, previous, results }
 }
 

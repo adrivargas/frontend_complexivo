@@ -7,34 +7,31 @@ export type Paginated<T> = {
   results: T[];
 };
 
-export type Vehiculo = {
+export type Shows = {
   id: number;
-  marca: number;
-  marca_nombre?: string;
-  modelo: string;
-  anio: number;
-  placa: string;
-  color?: string;
-  creado_en?: string;
+  movie_title: string;
+  genre: string;
+  duration_min: number;
+  is_active: boolean;
 };
 
 export async function listVehiculosPublicApi() {
-  const { data } = await http.get<Paginated<Vehiculo>>("/api/vehiculos/");
+  const { data } = await http.get<Paginated<Shows>>("api/vehicle-services/");
   return data; // { ... , results: [] }
 }
 
 export async function listVehiculosAdminApi() {
-  const { data } = await http.get<Paginated<Vehiculo>>("/api/vehiculos/");
+  const { data } = await http.get<Paginated<Shows>>("/api/vehiculos/");
   return data;
 }
 
-export async function createVehiculoApi(payload: Omit<Vehiculo, "id">) {
-  const { data } = await http.post<Vehiculo>("/api/vehiculos/", payload);
+export async function createVehiculoApi(payload: Omit<Shows, "id">) {
+  const { data } = await http.post<Shows>("/api/vehiculos/", payload);
   return data;
 }
 
-export async function updateVehiculoApi(id: number, payload: Partial<Vehiculo>) {
-  const { data } = await http.put<Vehiculo>(`/api/vehiculos/${id}/`, payload);
+export async function updateVehiculoApi(id: number, payload: Partial<Shows>) {
+  const { data } = await http.put<Shows>(`/api/vehiculos/${id}/`, payload);
   return data;
 }
 
